@@ -75,52 +75,52 @@ export default function VotingPage() {
 
   return (
     <PageShell
-      title="Community Voting"
-      subtitle="Shape the future of the platform"
-      titleClassName="text-primary glow-cyan"
+      title="Bendruomenės balsavimas"
+      subtitle="Nulemkite platformos ateitį"
+      titleClassName="text-text-primary"
       onLogout={handleLogout}
     >
         <ErrorAlert message={error} />
 
         {/* Create Proposal Form */}
-        <Card className="border-primary/30 bg-card/50 backdrop-blur box-glow-cyan mb-8">
+        <Card className="border border-border bg-surface mb-8 hover:shadow-md-elevation transition-shadow">
           <CardHeader>
-            <CardTitle className="text-primary">Create New Proposal</CardTitle>
-            <CardDescription>Submit your idea for community consideration</CardDescription>
+            <CardTitle className="text-text-primary">Kurti naują pasiūlymą</CardTitle>
+            <CardDescription className="text-text-secondary">Pasiūlykite idėją bendruomenei</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleCreateProposal} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="title">Proposal Title</Label>
+                <Label htmlFor="title">Pasiūlymo pavadinimas</Label>
                 <Input
                   id="title"
-                  placeholder="Enter proposal title"
+                  placeholder="Įveskite pasiūlymo pavadinimą"
                   value={newProposal.title}
                   onChange={(e) => setNewProposal({ ...newProposal, title: e.target.value })}
                   required
-                  className="bg-background/50 border-border/50"
+                  className="bg-surface-secondary border-border"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">Aprašymas</Label>
                 <Textarea
                   id="description"
-                  placeholder="Describe your proposal in detail"
+                  placeholder="Detaliai aprašykite savo pasiūlymą"
                   value={newProposal.description}
                   onChange={(e) => setNewProposal({ ...newProposal, description: e.target.value })}
                   required
                   rows={4}
-                  className="bg-background/50 border-border/50"
+                  className="bg-surface-secondary border-border"
                 />
               </div>
 
               <Button
                 type="submit"
-                className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 box-glow-cyan"
+                className="bg-primary hover:bg-primary/90 text-white"
                 disabled={createRequest.loading}
               >
-                {createRequest.loading ? "Creating..." : "Create Proposal"}
+                {createRequest.loading ? "Kuriama..." : "Kurti pasiūlymą"}
               </Button>
             </form>
           </CardContent>
@@ -128,12 +128,12 @@ export default function VotingPage() {
 
         {/* Proposals List */}
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-foreground">Active Proposals</h2>
+          <h2 className="text-2xl font-bold text-text-primary">Aktyvus balsavimas</h2>
 
           {listRequest.loading ? (
-            <LoadingState message="Loading proposals..." />
+            <LoadingState message="Pasiūlymai įkeliami..." />
           ) : proposals.length === 0 ? (
-            <EmptyStateCard message="No proposals yet. Be the first to create one!" />
+            <EmptyStateCard message="Dar nėra pasiūlymų. Būkite pirmieji!" />
           ) : (
             proposals.map((proposal) => (
               <ProposalCard

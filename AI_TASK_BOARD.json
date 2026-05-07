@@ -27,9 +27,10 @@
       "title": "Forum and Voting visual pass",
       "scope": "Apply premium style language to forum and voting pages",
       "owner": "visual-ai",
-      "status": "pending",
+      "status": "in_progress",
       "branch": "builder/premium-redesign-v3",
       "depends_on": ["UI-001"],
+      "updated_at": "2026-05-07T20:30:00Z",
       "notes": "No API/logic changes, visual-only."
     },
     {

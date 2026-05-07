@@ -26,42 +26,42 @@ export function ProposalCard({
   const percentage = totalVotes === 0 ? 50 : (votesFor / totalVotes) * 100
 
   return (
-    <Card className="border-border/30 bg-card/50 backdrop-blur hover:border-primary/30 hover:box-glow-cyan transition-all duration-300">
+    <Card className="border border-border bg-surface hover:shadow-md-elevation transition-shadow">
       <CardHeader>
-        <CardTitle className="text-xl text-foreground">{title}</CardTitle>
-        <CardDescription className="text-base">{description}</CardDescription>
+        <CardTitle className="text-xl text-text-primary">{title}</CardTitle>
+        <CardDescription className="text-base text-text-secondary">{description}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <div className="flex justify-between text-sm">
-            <span className="text-green-500">For: {votesFor}</span>
-            <span className="text-red-500">Against: {votesAgainst}</span>
+          <div className="flex justify-between text-sm font-medium">
+            <span className="text-success">Už: {votesFor}</span>
+            <span className="text-error">Prieš: {votesAgainst}</span>
           </div>
-          <Progress value={percentage} className="h-2 bg-red-500/20">
+          <Progress value={percentage} className="h-2 bg-border">
             <div
-              className="h-full bg-gradient-to-r from-green-500 to-green-400 transition-all duration-300"
+              className="h-full bg-success transition-all duration-300"
               style={{ width: `${percentage}%` }}
             />
           </Progress>
-          <p className="text-xs text-muted-foreground text-center">
-            {totalVotes} {totalVotes === 1 ? "vote" : "votes"} cast
+          <p className="text-xs text-text-muted text-center">
+            {totalVotes} {totalVotes === 1 ? "balsas" : "balsai"} iš viso
           </p>
         </div>
 
         <div className="flex gap-3">
           <Button
             onClick={() => onVote(id, true)}
-            className="flex-1 bg-green-500/20 hover:bg-green-500/30 text-green-500 border border-green-500/50"
+            className="flex-1 bg-success/10 hover:bg-success/20 text-success border border-success/50"
           >
             <ThumbsUp className="w-4 h-4 mr-2" />
-            Vote For
+            Balsuoti UŽ
           </Button>
           <Button
             onClick={() => onVote(id, false)}
-            className="flex-1 bg-red-500/20 hover:bg-red-500/30 text-red-500 border border-red-500/50"
+            className="flex-1 bg-error/10 hover:bg-error/20 text-error border border-error/50"
           >
             <ThumbsDown className="w-4 h-4 mr-2" />
-            Vote Against
+            Balsuoti PRIEŠ
           </Button>
         </div>
       </CardContent>
