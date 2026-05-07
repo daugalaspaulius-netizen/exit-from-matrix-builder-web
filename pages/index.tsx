@@ -1,174 +1,230 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Vote, Users, TrendingUp, Shield, MessageSquare, Settings, ArrowRight } from "lucide-react"
+import { Vote, Users, TrendingUp, Shield, MessageSquare, Settings, ArrowRight, CheckCircle2 } from "lucide-react"
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background matrix-grid">
+    <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="border-b border-border/40 bg-background/60 backdrop-blur-md sticky top-0 z-50">
+      <nav className="border-b border-border sticky top-0 z-50 bg-background">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="text-xl md:text-2xl font-bold tracking-wide">
-            <span className="text-primary glow-cyan">EXIT</span>
-            <span className="text-muted-foreground">/MATRIX</span>
+          <div className="text-xl md:text-2xl font-semibold tracking-wide">
+            <span className="text-primary">EXIT</span>
+            <span className="text-text-secondary ml-1">/MATRIX</span>
           </div>
-          <div className="flex gap-4">
-            <Button variant="ghost" asChild>
-              <Link href="/auth/login">Login</Link>
+          <div className="flex gap-3">
+            <Button variant="ghost" asChild className="hover:bg-surface">
+              <Link href="/auth/login">Prisijungti</Link>
             </Button>
-            <Button asChild className="neon-btn bg-primary/15 hover:bg-primary/25 text-primary">
-              <Link href="/auth/register">Register</Link>
+            <Button asChild className="bg-primary hover:bg-primary/90 text-white">
+              <Link href="/auth/register">Kurti paskyra</Link>
             </Button>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-6 py-16 md:py-20">
-        <div className="glass-panel rounded-2xl p-8 md:p-12">
-          <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-center">
-            <div>
-              <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-primary/80 mb-4">Decentralized Civic Engine</p>
-              <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
-                <span className="gradient-text">EXIT</span>
-                <br />
-                <span className="text-foreground">FROM MATRIX</span>
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-8">
-                Vienas žmogus - vienas balsas. Kuriam platformą, kur forumas, balsavimas ir biudžetas veikia realiu laiku.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Button asChild size="lg" className="neon-btn bg-primary/20 hover:bg-primary/30 text-primary px-7">
-                  <Link href="/auth/register">
-                    Enter Platform
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="border-secondary/40 text-secondary hover:bg-secondary/10 bg-transparent px-7">
-                  <Link href="/auth/login">Sign In</Link>
-                </Button>
-              </div>
+      <section className="container mx-auto px-6 py-20 md:py-28">
+        <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr] lg:items-center">
+          <div>
+            <p className="text-sm uppercase tracking-[0.15em] text-text-secondary mb-4 font-medium">Decentralized Governance Platform</p>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 text-text-primary">
+              Exit From<br />The Matrix
+            </h1>
+            <p className="text-lg text-text-secondary max-w-xl mb-8 leading-relaxed">
+              Lygybė be hierarchijos. Vienas žmogus – vienas balsas. Sukuriame platformą, kur kiekvieno balso vertė yra lygi, finansai skaidrūs, ir jūs valdote savo ateitį.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-white px-8">
+                <Link href="/auth/register">
+                  Pradėti dabar
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="border-border text-text-primary hover:bg-surface">
+                <Link href="/auth/login">Jau turite paskyrą?</Link>
+              </Button>
             </div>
+          </div>
 
-            <div className="space-y-4">
-              <Card className="border-primary/30 bg-card/60 box-glow-cyan">
-                <CardHeader>
-                  <CardDescription>Status</CardDescription>
-                  <CardTitle className="text-primary">SYSTEM ONLINE</CardTitle>
-                </CardHeader>
-              </Card>
-              <Card className="border-secondary/30 bg-card/60 box-glow-purple">
-                <CardHeader>
-                  <CardDescription>Model</CardDescription>
-                  <CardTitle className="text-secondary">1 USER = 1 VOTE</CardTitle>
-                </CardHeader>
-              </Card>
-              <Card className="border-accent/30 bg-card/60 box-glow-pink">
-                <CardHeader>
-                  <CardDescription>Treasury</CardDescription>
-                  <CardTitle className="text-accent">TRANSPARENT FLOW</CardTitle>
-                </CardHeader>
-              </Card>
-            </div>
+          {/* Key Principles */}
+          <div className="space-y-4">
+            <Card className="border border-border bg-surface hover:shadow-md-elevation transition-shadow">
+              <CardHeader>
+                <div className="flex items-start gap-4">
+                  <CheckCircle2 className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+                  <div>
+                    <CardTitle className="text-primary">1 žmogus = 1 balsas</CardTitle>
+                    <CardDescription className="text-text-secondary mt-1">Nėra tokio dalyko kaip turto balso</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+            </Card>
+            <Card className="border border-border bg-surface hover:shadow-md-elevation transition-shadow">
+              <CardHeader>
+                <div className="flex items-start gap-4">
+                  <CheckCircle2 className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+                  <div>
+                    <CardTitle className="text-primary">Skaidrūs finansai</CardTitle>
+                    <CardDescription className="text-text-secondary mt-1">Kiekvienos operacijos ir uždarbiis viešai prieinamas</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+            </Card>
+            <Card className="border border-border bg-surface hover:shadow-md-elevation transition-shadow">
+              <CardHeader>
+                <div className="flex items-start gap-4">
+                  <CheckCircle2 className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+                  <div>
+                    <CardTitle className="text-primary">€10 – kiekvienas mėnuo</CardTitle>
+                    <CardDescription className="text-text-secondary mt-1">Garantuotas universalus bazinis pajamų dydis</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+            </Card>
           </div>
         </div>
 
-        {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto my-12">
-          <Card className="border-primary/30 bg-card/60 backdrop-blur box-glow-cyan hover:box-glow-cyan transition-all duration-300">
-            <CardHeader>
-              <CardTitle className="text-4xl font-bold text-primary">€10</CardTitle>
-              <CardDescription className="text-foreground/80">Start Monthly Income</CardDescription>
-            </CardHeader>
-          </Card>
+        {/* Core Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-16">
+          <div className="border border-border bg-surface p-8 rounded-lg text-center hover:shadow-md-elevation transition-shadow">
+            <div className="text-5xl font-bold text-primary mb-2">€10</div>
+            <p className="text-text-secondary">Mėnesio garantuota suma</p>
+          </div>
 
-          <Card className="border-secondary/30 bg-card/50 backdrop-blur box-glow-purple hover:box-glow-purple transition-all duration-300">
-            <CardHeader>
-              <CardTitle className="text-4xl font-bold text-secondary">1:1</CardTitle>
-              <CardDescription className="text-foreground/80">Voting Power</CardDescription>
-            </CardHeader>
-          </Card>
+          <div className="border border-border bg-surface p-8 rounded-lg text-center hover:shadow-md-elevation transition-shadow">
+            <div className="text-5xl font-bold text-primary mb-2">1:1</div>
+            <p className="text-text-secondary">Balsavimo galia</p>
+          </div>
 
-          <Card className="border-accent/30 bg-card/50 backdrop-blur box-glow-pink hover:box-glow-pink transition-all duration-300">
-            <CardHeader>
-              <CardTitle className="text-4xl font-bold text-accent">50%</CardTitle>
-              <CardDescription className="text-foreground/80">Profit Share</CardDescription>
-            </CardHeader>
-          </Card>
+          <div className="border border-border bg-surface p-8 rounded-lg text-center hover:shadow-md-elevation transition-shadow">
+            <div className="text-5xl font-bold text-primary mb-2">50%</div>
+            <p className="text-text-secondary">Pelno dalis nariams</p>
+          </div>
         </div>
 
       </section>
+
 
       {/* Features Section */}
-      <section className="container mx-auto px-6 py-8 md:py-14">
-        <h2 className="text-4xl font-bold text-center mb-12 text-primary glow-cyan">Platform Modules</h2>
+      <section className="container mx-auto px-6 py-20">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-4">Platformos moduliai</h2>
+          <p className="text-text-secondary text-lg max-w-2xl mx-auto">Viskas kuris jums reikalinga bendram valdymui ir skaidrioms operacijoms</p>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <Card className="border-primary/30 bg-card/50 backdrop-blur hover:box-glow-cyan transition-all duration-300">
+          <Card className="border border-border bg-surface hover:shadow-md-elevation transition-shadow">
             <CardHeader>
-              <Vote className="w-12 h-12 text-primary mb-4" />
-              <CardTitle className="text-primary">Democratic Voting</CardTitle>
-              <CardDescription>
-                Every member has equal voting power. Create and vote on proposals that shape the platform.
+              <Vote className="w-10 h-10 text-primary mb-4" />
+              <CardTitle className="text-text-primary">Demokratinis balsavimas</CardTitle>
+              <CardDescription className="text-text-secondary">
+                Kiekvienas narys turi vienodą balsavimo galią. Kurkite ir klauskite pasiūlymų.
               </CardDescription>
             </CardHeader>
           </Card>
 
-          <Card className="border-secondary/30 bg-card/50 backdrop-blur hover:box-glow-purple transition-all duration-300">
+          <Card className="border border-border bg-surface hover:shadow-md-elevation transition-shadow">
             <CardHeader>
-              <MessageSquare className="w-12 h-12 text-secondary mb-4" />
-              <CardTitle className="text-secondary">Community Forum</CardTitle>
-              <CardDescription>
-                Engage with the community, share ideas, and participate in meaningful discussions.
+              <MessageSquare className="w-10 h-10 text-primary mb-4" />
+              <CardTitle className="text-text-primary">Bendruomenės forumas</CardTitle>
+              <CardDescription className="text-text-secondary">
+                Dialogas, idėjos ir bendras sprendimų priėmimas. Jūsų balsas svarbus.
               </CardDescription>
             </CardHeader>
           </Card>
 
-          <Card className="border-accent/30 bg-card/50 backdrop-blur hover:box-glow-pink transition-all duration-300">
+          <Card className="border border-border bg-surface hover:shadow-md-elevation transition-shadow">
             <CardHeader>
-              <TrendingUp className="w-12 h-12 text-accent mb-4" />
-              <CardTitle className="text-accent">Monthly Earnings</CardTitle>
-              <CardDescription>
-                Receive €10 monthly and share in 50% of platform profits as the community grows.
+              <TrendingUp className="w-10 h-10 text-primary mb-4" />
+              <CardTitle className="text-text-primary">Mėnesio pajamos</CardTitle>
+              <CardDescription className="text-text-secondary">
+                €10 garantuota suma ir 50% pelno pasidalijimas augant bendruomenei.
               </CardDescription>
             </CardHeader>
           </Card>
 
-          <Card className="border-primary/30 bg-card/50 backdrop-blur hover:box-glow-cyan transition-all duration-300">
+          <Card className="border border-border bg-surface hover:shadow-md-elevation transition-shadow">
             <CardHeader>
-              <Users className="w-12 h-12 text-primary mb-4" />
-              <CardTitle className="text-primary">Referral System</CardTitle>
-              <CardDescription>
-                Invite friends and grow the community. Every member strengthens the network.
+              <Users className="w-10 h-10 text-primary mb-4" />
+              <CardTitle className="text-text-primary">Rekomenduojamų sistema</CardTitle>
+              <CardDescription className="text-text-secondary">
+                Kvieskite draugus. Kiekvienas narys stiprina tinklą ir visų vertę.
               </CardDescription>
             </CardHeader>
           </Card>
 
-          <Card className="border-secondary/30 bg-card/50 backdrop-blur hover:box-glow-purple transition-all duration-300">
+          <Card className="border border-border bg-surface hover:shadow-md-elevation transition-shadow">
             <CardHeader>
-              <Shield className="w-12 h-12 text-secondary mb-4" />
-              <CardTitle className="text-secondary">Transparent Treasury</CardTitle>
-              <CardDescription>
-                All financial transactions are visible. Community-driven decisions on fund allocation.
+              <Shield className="w-10 h-10 text-primary mb-4" />
+              <CardTitle className="text-text-primary">Skaidrūs finansai</CardTitle>
+              <CardDescription className="text-text-secondary">
+                Visos operacijos viešos. Bendruomenė nusprendžia, kaip naudoti iždo lėšas.
               </CardDescription>
             </CardHeader>
           </Card>
 
-          <Card className="border-accent/30 bg-card/50 backdrop-blur hover:box-glow-pink transition-all duration-300">
+          <Card className="border border-border bg-surface hover:shadow-md-elevation transition-shadow">
             <CardHeader>
-              <Settings className="w-12 h-12 text-accent mb-4" />
-              <CardTitle className="text-accent">Level & Points</CardTitle>
-              <CardDescription>
-                Gain experience through participation. Level up to unlock enhanced features and rewards.
+              <Settings className="w-10 h-10 text-primary mb-4" />
+              <CardTitle className="text-text-primary">Patyrimo sistema</CardTitle>
+              <CardDescription className="text-text-secondary">
+                Dalyvavimu keliaukite lygius. Atraškite naujus modulius ir atlygius.
               </CardDescription>
             </CardHeader>
           </Card>
         </div>
       </section>
-      <footer className="border-t border-border/50 mt-16">
-        <div className="container mx-auto px-6 py-8 text-center text-muted-foreground">
-          <p>&copy; 2025 Exit From Matrix. Decentralized. Democratic. Transparent.</p>
+
+      {/* CTA Section */}
+      <section className="container mx-auto px-6 py-20 border-t border-border">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
+            Pasiruošti teisingumui?
+          </h2>
+          <p className="text-lg text-text-secondary mb-8">
+            Prisijunkite prie tūkstančių narių, kurie jau kurie metu bendram valdymą ir realią lygybę.
+          </p>
+          <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-white px-8">
+            <Link href="/auth/register">
+              Pradėti - Nemokamai
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
+          </Button>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-border mt-20">
+        <div className="container mx-auto px-6 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div>
+              <h3 className="text-text-primary font-semibold mb-4">Apie</h3>
+              <p className="text-text-secondary text-sm leading-relaxed">
+                Exit From Matrix yra decentralizuota duomenų platforma, skirta tiems, kurie nori dalyvoti tikroje demokratijoje.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-text-primary font-semibold mb-4">Dokumentacija</h3>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-primary hover:text-primary/80">Darbuotojo vadovas</a></li>
+                <li><a href="#" className="text-primary hover:text-primary/80">Valdymo taisyklės</a></li>
+                <li><a href="#" className="text-primary hover:text-primary/80">API dokumentacija</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-text-primary font-semibold mb-4">Bendruomenė</h3>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-primary hover:text-primary/80">Discord</a></li>
+                <li><a href="#" className="text-primary hover:text-primary/80">GitHub</a></li>
+                <li><a href="#" className="text-primary hover:text-primary/80">Telegram</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-border pt-8 text-center text-text-secondary text-sm">
+            <p>&copy; 2025 Exit From Matrix. Decentralizuota. Demokratiška. Skaidri.</p>
+          </div>
         </div>
       </footer>
     </div>
