@@ -1,0 +1,6 @@
+{
+  "repo": "daugalaspaulius-netizen/exit-from-matrix-builder-web",
+  "interval_seconds": 30,
+  "max_prs": 30,
+  "dry_run": false
+}
