@@ -1,0 +1,14 @@
+{
+  "poll_seconds": 30,
+  "max_messages_per_cycle": 20,
+  "paths": {
+    "vs_to_cursor": "relay/vs_to_cursor.jsonl",
+    "cursor_to_vs": "relay/cursor_to_vs.jsonl",
+    "audit_log": "relay/runtime/relay_audit.log"
+  },
+  "rules": {
+    "allow_auto_ack": true,
+    "prefix_visual_to_cursor": "[VISUAL->CURSOR]",
+    "prefix_cursor_to_visual": "[CURSOR->VISUAL]"
+  }
+}
