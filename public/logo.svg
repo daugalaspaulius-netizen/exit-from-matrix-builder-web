@@ -1,0 +1,49 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <circle cx="100" cy="100" r="95" fill="#000000" stroke="#00ff41" stroke-width="3"/>
+  
+  <!-- Matrix code effect - top -->
+  <text x="30" y="60" font-family="monospace" font-size="12" fill="#00ff41" opacity="0.6">1 0 1 1</text>
+  <text x="140" y="60" font-family="monospace" font-size="12" fill="#00ff41" opacity="0.6">0 1 0 1</text>
+  
+  <!-- Red Pill -->
+  <ellipse cx="70" cy="100" rx="20" ry="25" fill="#ff0000" filter="url(#glow-red)"/>
+  <text x="62" y="108" font-family="Arial" font-size="20" fill="#ffffff" font-weight="bold">R</text>
+  
+  <!-- Blue Pill -->
+  <ellipse cx="130" cy="100" rx="20" ry="25" fill="#0066ff" filter="url(#glow-blue)"/>
+  <text x="122" y="108" font-family="Arial" font-size="20" fill="#ffffff" font-weight="bold">B</text>
+  
+  <!-- Connection line with glow -->
+  <line x1="90" y1="100" x2="110" y2="100" stroke="#00ff41" stroke-width="3" filter="url(#glow-line)"/>
+  
+  <!-- Text below -->
+  <text x="100" y="150" font-family="Arial" font-size="16" fill="#00ff41" text-anchor="middle" font-weight="bold">MATRIX</text>
+  
+  <!-- Glow effects -->
+  <defs>
+    <filter id="glow-red">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="glow-blue">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="glow-line">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+</svg>
