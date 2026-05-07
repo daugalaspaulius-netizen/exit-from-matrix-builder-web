@@ -1,3 +1,4 @@
+
 "use client"
 
 import type { ReactNode } from "react"
@@ -12,27 +13,24 @@ type StatCardProps = {
   valueClassName: string
 }
 
-export function StatCard({
-  title,
-  value,
-  subtitle,
-  icon,
-  cardClassName,
-  valueClassName,
-}: StatCardProps) {
+export function StatCard({ title, value, subtitle, icon, cardClassName, valueClassName }: StatCardProps) {
   return (
-    <Card className={cardClassName}>
-      <CardHeader>
+    <Card className={"relative overflow-hidden " + cardClassName}>
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-current to-transparent opacity-20" />
+      <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
-          {icon}
+          <CardTitle className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+            {title}
+          </CardTitle>
+          <div className="p-1.5 rounded-md bg-current/10">
+            {icon}
+          </div>
         </div>
       </CardHeader>
       <CardContent>
-        <div className={`text-3xl font-bold ${valueClassName}`}>{value}</div>
-        <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
+        <div className={"text-3xl font-bold tracking-tight " + valueClassName}>{value}</div>
+        <p className="text-xs text-muted-foreground mt-1.5">{subtitle}</p>
       </CardContent>
     </Card>
   )
 }
-
