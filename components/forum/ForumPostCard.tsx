@@ -19,18 +19,18 @@ export function ForumPostCard({
   formatDate,
 }: ForumPostCardProps) {
   return (
-    <Card className="border-border/30 bg-card/50 backdrop-blur hover:border-secondary/30 hover:box-glow-purple transition-all duration-300">
+    <Card className="border border-border bg-surface hover:shadow-md-elevation transition-shadow">
       <CardHeader>
-        <CardTitle className="text-xl text-foreground flex items-start gap-3">
-          <MessageSquare className="w-5 h-5 text-secondary mt-1" />
+        <CardTitle className="text-xl text-text-primary flex items-start gap-3">
+          <MessageSquare className="w-5 h-5 text-primary mt-1" />
           <span>{title}</span>
         </CardTitle>
-        <CardDescription className="text-base ml-8">{content}</CardDescription>
+        <CardDescription className="text-base text-text-secondary ml-8">{content}</CardDescription>
       </CardHeader>
       <CardContent className="ml-8">
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+        <div className="flex items-center gap-4 text-sm text-text-muted">
           <span className="flex items-center gap-1">
-            By <span className="text-secondary font-medium">User #{authorId || "unknown"}</span>
+            Autorius: <span className="text-primary font-medium">Naudotojas #{authorId || "nežinomas"}</span>
           </span>
           <span className="flex items-center gap-1">
             <Calendar className="w-3 h-3" />
