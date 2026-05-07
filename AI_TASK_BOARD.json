@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "updated_at": "2026-05-07T20:25:00Z",
+  "tasks": [
+    {
+      "id": "UI-001",
+      "title": "Premium redesign v2 review",
+      "scope": "Validate PR #2 visuals for landing and dashboard",
+      "owner": "cursor",
+      "status": "in_progress",
+      "branch": "builder/premium-redesign-v2",
+      "depends_on": [],
+      "notes": "Check readability, spacing, regressions, route safety."
+    },
+    {
+      "id": "FE-API-002",
+      "title": "Wire referral and vote-log endpoints",
+      "scope": "Connect frontend services/pages to referral summary and open vote log",
+      "owner": "cursor",
+      "status": "pending",
+      "branch": "main",
+      "depends_on": [],
+      "notes": "Backend endpoints already added in main project backend."
+    },
+    {
+      "id": "UI-002",
+      "title": "Forum and Voting visual pass",
+      "scope": "Apply premium style language to forum and voting pages",
+      "owner": "visual-ai",
+      "status": "pending",
+      "branch": "builder/premium-redesign-v3",
+      "depends_on": ["UI-001"],
+      "notes": "No API/logic changes, visual-only."
+    },
+    {
+      "id": "DOC-001",
+      "title": "Canonical rules sync maintenance",
+      "scope": "Keep local web docs aligned with governance rules",
+      "owner": "visual-ai",
+      "status": "pending",
+      "branch": "main",
+      "depends_on": [],
+      "notes": "Update docs/CANONICAL_RULES_SYNC.md when governance constraints change."
+    }
+  ]
+}
