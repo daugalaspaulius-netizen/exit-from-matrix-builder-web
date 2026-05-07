@@ -1,3 +1,4 @@
+
 "use client"
 
 import type React from "react"
@@ -76,78 +77,95 @@ export default function VotingPage() {
   return (
     <PageShell
       title="Community Voting"
-      subtitle="Shape the future of the platform"
+      subtitle="Shape the future of the platform — one person, one vote"
       titleClassName="text-primary glow-cyan"
       onLogout={handleLogout}
     >
-        <ErrorAlert message={error} />
+      <ErrorAlert message={error} />
 
-        {/* Create Proposal Form */}
-        <Card className="border-primary/30 bg-card/50 backdrop-blur box-glow-cyan mb-8">
-          <CardHeader>
-            <CardTitle className="text-primary">Create New Proposal</CardTitle>
-            <CardDescription>Submit your idea for community consideration</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleCreateProposal} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="title">Proposal Title</Label>
-                <Input
-                  id="title"
-                  placeholder="Enter proposal title"
-                  value={newProposal.title}
-                  onChange={(e) => setNewProposal({ ...newProposal, title: e.target.value })}
-                  required
-                  className="bg-background/50 border-border/50"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                  id="description"
-                  placeholder="Describe your proposal in detail"
-                  value={newProposal.description}
-                  onChange={(e) => setNewProposal({ ...newProposal, description: e.target.value })}
-                  required
-                  rows={4}
-                  className="bg-background/50 border-border/50"
-                />
-              </div>
-
-              <Button
-                type="submit"
-                className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 box-glow-cyan"
-                disabled={createRequest.loading}
-              >
-                {createRequest.loading ? "Creating..." : "Create Proposal"}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-
-        {/* Proposals List */}
-        <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-foreground">Active Proposals</h2>
-
-          {listRequest.loading ? (
-            <LoadingState message="Loading proposals..." />
-          ) : proposals.length === 0 ? (
-            <EmptyStateCard message="No proposals yet. Be the first to create one!" />
-          ) : (
-            proposals.map((proposal) => (
-              <ProposalCard
-                key={proposal.id}
-                id={proposal.vote_id || proposal.id}
-                title={proposal.title}
-                description={proposal.description}
-                votesFor={proposal.votes_for}
-                votesAgainst={proposal.votes_against}
-                onVote={handleVote}
+      {/* Create Proposal Form */}
+      <Card className="border-primary/30 bg-card/60 backdrop-blur box-glow-cyan mb-8 relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+        <CardHeader className="pb-3">
+          <CardTitle className="text-primary text-base">Create New Proposal</CardTitle>
+          <CardDescription className="text-xs">Submit your idea for community consideration</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleCreateProposal} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="title" className="text-xs uppercase tracking-widest text-muted-foreground">
+                Proposal Title
+              </Label>
+              <Input
+                id="title"
+                placeholder="Enter a clear, concise proposal title"
+                value={newProposal.title}
+                onChange={(e) => setNewProposal({ ...newProposal, title: e.target.value })}
+                required
+                className="bg-background/50 border-border/50 focus:border-primary/50 focus:ring-primary/20"
               />
-            ))
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="description" className="text-xs uppercase tracking-widest text-muted-foreground">
+                Description
+              </Label>
+              <Textarea
+                id="description"
+                placeholder="Describe your proposal in detail — what, why, and expected impact"
+                value={newProposal.description}
+                onChange={(e) => setNewProposal({ ...newProposal, description: e.target.value })}
+                required
+                rows={4}
+                className="bg-background/50 border-border/50 focus:border-primary/50 focus:ring-primary/20 resize-none"
+              />
+            </div>
+
+            <Button
+              type="submit"
+              className="neon-btn bg-primary/14 hover:bg-primary/24 text-primary font-semibold px-6"
+              disabled={createRequest.loading}
+            >
+              {createRequest.loading ? "Submitting..." : "Submit Proposal"}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+
+      {/* Proposals list */}
+      <div className="space-y-5">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-foreground">Active Proposals</h2>
+          {proposals.length > 0 && (
+            <span className="text-xs text-muted-foreground px-2 py-1 rounded-full border border-border/40 bg-muted/20">
+              {proposals.length} {proposals.length === 1 ? "proposal" : "proposals"}
+            </span>
           )}
         </div>
+
+        {listRequest.loading ? (
+          <LoadingState message="Loading proposals..." />
+        ) : proposals.length === 0 ? (
+          <EmptyStateCard message="No proposals yet. Be the first to submit one!" />
+        ) : (
+          proposals.map((proposal) => (
+            <ProposalCard
+              key={proposal.id}
+              id={proposal.vote_id || proposal.id}
+              title={proposal.title}
+              description={proposal.description}
+              status={proposal.status}
+              votesFor={proposal.votes_for}
+              votesAgainst={proposal.votes_against}
+              quorumRequired={proposal.quorum_required}
+              quorumPercentage={proposal.quorum_percentage}
+              votingDeadline={proposal.voting_deadline}
+              totalVoters={proposal.total_voters}
+              onVote={handleVote}
+            />
+          ))
+        )}
+      </div>
     </PageShell>
   )
 }
