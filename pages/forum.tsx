@@ -71,51 +71,51 @@ export default function ForumPage() {
 
   return (
     <PageShell
-      title="Community Forum"
-      subtitle="Connect and share with the community"
-      titleClassName="text-secondary glow-purple"
+      title="Bendruomenės forumas"
+      subtitle="Bendravimas su bendruomene"
+      titleClassName="text-text-primary"
       onLogout={handleLogout}
     >
         <ErrorAlert message={error} />
 
         {/* Create Post Form */}
-        <Card className="border-secondary/30 bg-card/50 backdrop-blur box-glow-purple mb-8">
+        <Card className="border border-border bg-surface mb-8 hover:shadow-md-elevation transition-shadow">
           <CardHeader>
-            <CardTitle className="text-secondary">Create New Post</CardTitle>
-            <CardDescription>Share your thoughts with the community</CardDescription>
+            <CardTitle className="text-text-primary">Kurti naują žinutę</CardTitle>
+            <CardDescription className="text-text-secondary">Pasidalinkite savo nuomone su bendruomene</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleCreatePost} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="vote-id">Vote ID</Label>
+                <Label htmlFor="vote-id">Balsavimo ID</Label>
                 <Input
                   id="vote-id"
-                  placeholder="Optional: Proposal vote_id"
+                  placeholder="Neprivaloma: Pasiūlymo vote_id"
                   value={newPost.voteId}
                   onChange={(e) => setNewPost({ ...newPost, voteId: e.target.value })}
-                  className="bg-background/50 border-border/50"
+                  className="bg-surface-secondary border-border"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="post-content">Content</Label>
+                <Label htmlFor="post-content">Turinys</Label>
                 <Textarea
                   id="post-content"
-                  placeholder="Write your post content"
+                  placeholder="Rašykite savo žinutę"
                   value={newPost.content}
                   onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
                   required
                   rows={4}
-                  className="bg-background/50 border-border/50"
+                  className="bg-surface-secondary border-border"
                 />
               </div>
 
               <Button
                 type="submit"
-                className="bg-gradient-to-r from-secondary to-accent hover:opacity-90 box-glow-purple"
+                className="bg-primary hover:bg-primary/90 text-white"
                 disabled={createRequest.loading}
               >
-                {createRequest.loading ? "Creating..." : "Create Post"}
+                {createRequest.loading ? "Kuriama..." : "Kurti žinutę"}
               </Button>
             </form>
           </CardContent>
@@ -123,17 +123,17 @@ export default function ForumPage() {
 
         {/* Posts List */}
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-foreground">Recent Posts</h2>
+          <h2 className="text-2xl font-bold text-text-primary">Naujausia diskusija</h2>
 
           {listRequest.loading ? (
-            <LoadingState message="Loading posts..." />
+            <LoadingState message="Žinutės įkeliamos..." />
           ) : posts.length === 0 ? (
-            <EmptyStateCard message="No posts yet. Be the first to start a discussion!" />
+            <EmptyStateCard message="Dar nėra žinutių. Būkite pirmieji!" />
           ) : (
             posts.map((post) => (
               <ForumPostCard
                 key={post.id ?? post.post_id}
-                title={post.title || `Discussion for ${post.vote_id}`}
+                title={post.title || `Diskusija dėl ${post.vote_id}`}
                 content={post.content}
                 authorId={post.author_id}
                 createdAt={post.created_at}
