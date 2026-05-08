@@ -17,6 +17,7 @@ import { ErrorAlert } from "@/components/common/ErrorAlert"
 import { LoadingState } from "@/components/common/LoadingState"
 import { PageShell } from "@/components/layout/PageShell"
 import { RatingActivityCard } from "@/components/system-monitor/RatingActivityCard"
+import { RatingIntegrityWatch } from "@/components/system-monitor/RatingIntegrityWatch"
 import {
   getSystemAuditLogs,
   getSystemContracts,
@@ -55,7 +56,9 @@ export default function SystemMonitorPage() {
   const [bindingState, setBindingState] = useState<UiBindingValidationState | null>(null)
   const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>([])
   const [ratingActivity, setRatingActivity] = useState<RatingActivitySummary | null>(null)
+  const [previousRatingActivity, setPreviousRatingActivity] = useState<RatingActivitySummary | null>(null)
   const [ratingActivityLoading, setRatingActivityLoading] = useState(false)
+  const [ratingActivityRefreshTime, setRatingActivityRefreshTime] = useState<string | null>(null)
   const [auditQuery, setAuditQuery] = useState("")
   const [lastUpdated, setLastUpdated] = useState<string | null>(null)
   const [auditLimit, setAuditLimit] = useState(20)
@@ -143,7 +146,9 @@ export default function SystemMonitorPage() {
     setErrorCodes(loaded.errorCodes)
     setBindingState(loaded.bindingState)
     setAuditLogs(loaded.auditLogs)
+    setPreviousRatingActivity(ratingActivity)
     setRatingActivity(loaded.ratingActivity)
+    setRatingActivityRefreshTime(new Date().toISOString())
     setRatingActivityLoading(false)
     setLastUpdated(new Date().toISOString())
     setLastLatencyMs(Math.round(performance.now() - startedAt))
@@ -503,6 +508,13 @@ export default function SystemMonitorPage() {
       </Card>
 
       {/* Rating Activity Section */}
+      <RatingIntegrityWatch
+        data={ratingActivity}
+        loading={ratingActivityLoading}
+        lastRefreshTime={ratingActivityRefreshTime}
+        previousData={previousRatingActivity}
+      />
+
       <RatingActivityCard data={ratingActivity} loading={ratingActivityLoading} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

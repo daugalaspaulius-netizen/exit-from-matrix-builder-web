@@ -14,6 +14,7 @@ import { LoadingState } from "@/components/common/LoadingState"
 import { StatCard } from "@/components/dashboard/StatCard"
 import { ActionCard } from "@/components/dashboard/ActionCard"
 import { ReferralCard } from "@/components/dashboard/ReferralCard"
+import { ReputationSnapshot } from "@/components/dashboard/ReputationSnapshot"
 import { UserRatingHistory } from "@/components/dashboard/UserRatingHistory"
 import type { AuditLogEntry, RatingHistoryEntry, UserSummary } from "@/types/api"
 
@@ -203,6 +204,17 @@ export default function DashboardPage() {
 
       {/* Referral Section */}
       <ReferralCard referralLink={user?.referral_link} copied={copied} onCopy={handleCopyReferral} />
+
+      {/* Reputation Snapshot */}
+      <div className="mt-12">
+        <h2 className="text-2xl font-bold mb-6 text-foreground">Your Reputation</h2>
+        <ReputationSnapshot
+          ratingScore={0}
+          ratingVotes={0}
+          recentRatings={userRatings}
+          loading={ratingsLoading}
+        />
+      </div>
 
       {/* User Rating History */}
       <div className="mt-12">
