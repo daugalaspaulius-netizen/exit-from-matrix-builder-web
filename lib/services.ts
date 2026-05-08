@@ -126,10 +126,10 @@ export async function listProposals(limit?: number) {
   return apiCall<any[]>(`/proposals${params}`)
 }
 
-export async function createProposal(userId: string, title: string, description: string, quorumType: string) {
-  return apiCall<any>("/proposals", {
+export async function createProposal(userId: string, title: string, description: string, quorumType: string = "critical") {
+  return apiCall<any>(`/proposals?creator_id=${userId}`, {
     method: "POST",
-    body: JSON.stringify({ author_id: userId, title, description, quorum_type: quorumType }),
+    body: JSON.stringify({ title, description, quorum_type: quorumType }),
   })
 }
 
