@@ -16,6 +16,7 @@ import { useApiRequest } from "@/hooks/useApiRequest"
 import { ErrorAlert } from "@/components/common/ErrorAlert"
 import { LoadingState } from "@/components/common/LoadingState"
 import { PageShell } from "@/components/layout/PageShell"
+import { RatingActivityCard } from "@/components/system-monitor/RatingActivityCard"
 import {
   getSystemAuditLogs,
   getSystemContracts,
@@ -23,9 +24,11 @@ import {
   getSystemSummary,
   getUiBindingValidation,
   getUiBindingStatus,
+  getSystemRatingActivity,
 } from "@/lib/services"
 import type {
   AuditLogEntry,
+  RatingActivitySummary,
   SystemContracts,
   SystemErrorCodesResponse,
   SystemSummary,
@@ -51,6 +54,8 @@ export default function SystemMonitorPage() {
   const [errorCodes, setErrorCodes] = useState<SystemErrorCodesResponse | null>(null)
   const [bindingState, setBindingState] = useState<UiBindingValidationState | null>(null)
   const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>([])
+  const [ratingActivity, setRatingActivity] = useState<RatingActivitySummary | null>(null)
+  const [ratingActivityLoading, setRatingActivityLoading] = useState(false)
   const [auditQuery, setAuditQuery] = useState("")
   const [lastUpdated, setLastUpdated] = useState<string | null>(null)
   const [auditLimit, setAuditLimit] = useState(20)
@@ -93,13 +98,15 @@ export default function SystemMonitorPage() {
 
   const loadSystemData = async (keepError = false) => {
     const startedAt = performance.now()
+    setRatingActivityLoading(true)
     const loaded = await request.execute(async () => {
-      const [summaryRes, contractsRes, errorCodesRes, bindingStatusRes, auditRes] = await Promise.all([
+      const [summaryRes, contractsRes, errorCodesRes, bindingStatusRes, auditRes, ratingRes] = await Promise.all([
         getSystemSummary(),
         getSystemContracts(),
         getSystemErrorCodes(),
         getUiBindingStatus(),
         getSystemAuditLogs(auditLimit),
+        getSystemRatingActivity(24),
       ])
 
       return {
@@ -108,6 +115,7 @@ export default function SystemMonitorPage() {
         errorCodes: errorCodesRes.data,
         bindingState: bindingStatusRes.data,
         auditLogs: auditRes.data,
+        ratingActivity: ratingRes.data,
       }
     }, { keepError })
 
@@ -135,6 +143,8 @@ export default function SystemMonitorPage() {
     setErrorCodes(loaded.errorCodes)
     setBindingState(loaded.bindingState)
     setAuditLogs(loaded.auditLogs)
+    setRatingActivity(loaded.ratingActivity)
+    setRatingActivityLoading(false)
     setLastUpdated(new Date().toISOString())
     setLastLatencyMs(Math.round(performance.now() - startedAt))
   }
@@ -491,6 +501,9 @@ export default function SystemMonitorPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Rating Activity Section */}
+      <RatingActivityCard data={ratingActivity} loading={ratingActivityLoading} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border-primary/30 bg-card/50 backdrop-blur">

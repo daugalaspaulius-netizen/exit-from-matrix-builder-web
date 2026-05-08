@@ -110,3 +110,25 @@ export type AuditLogEntry = {
   timestamp: string
 }
 
+export type RatingTarget = {
+  username: string
+  rating_score: number
+  rating_votes: number
+}
+
+export type RatingActivitySummary = {
+  events_total: number
+  unique_raters: number
+  unique_targets: number
+  updated_events: number
+  top_targets: RatingTarget[]
+}
+
+export type RatingHistoryEntry = {
+  target_username: string
+  rating_score: number
+  context?: string
+  comment?: string
+  created_at: string
+}
+

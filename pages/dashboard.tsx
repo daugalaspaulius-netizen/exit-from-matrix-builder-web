@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { Button } from "@/components/ui/button"
 import { Vote, MessageSquare, Settings, TrendingUp, Award, Zap, Activity } from "lucide-react"
-import { getSystemAuditLogs, getUserSummary } from "@/lib/services"
+import { getSystemAuditLogs, getUserSummary, getUserRatingHistory } from "@/lib/services"
 import { clearSession, getAcknowledgedIncidentIds } from "@/lib/session"
 import { useRequireAuth } from "@/hooks/useRequireAuth"
 import { useApiRequest } from "@/hooks/useApiRequest"
@@ -14,13 +14,16 @@ import { LoadingState } from "@/components/common/LoadingState"
 import { StatCard } from "@/components/dashboard/StatCard"
 import { ActionCard } from "@/components/dashboard/ActionCard"
 import { ReferralCard } from "@/components/dashboard/ReferralCard"
-import type { AuditLogEntry, UserSummary } from "@/types/api"
+import { UserRatingHistory } from "@/components/dashboard/UserRatingHistory"
+import type { AuditLogEntry, RatingHistoryEntry, UserSummary } from "@/types/api"
 
 export default function DashboardPage() {
   const router = useRouter()
   const { userId, isCheckingAuth } = useRequireAuth()
   const [user, setUser] = useState<UserSummary | null>(null)
   const [copied, setCopied] = useState(false)
+  const [userRatings, setUserRatings] = useState<RatingHistoryEntry[] | null>(null)
+  const [ratingsLoading, setRatingsLoading] = useState(false)
   const [incidentBadge, setIncidentBadge] = useState<{
     critical: number
     unacknowledgedCritical: number
@@ -34,8 +37,18 @@ export default function DashboardPage() {
       return
     }
     void fetchUserProfile(userId)
+    void fetchUserRatings(userId)
     void fetchIncidentBadge()
   }, [isCheckingAuth, userId])
+
+  const fetchUserRatings = async (userId: string) => {
+    setRatingsLoading(true)
+    const response = await execute(() => getUserRatingHistory(userId, 20), { keepError: true })
+    if (response) {
+      setUserRatings(response.data)
+    }
+    setRatingsLoading(false)
+  }
 
   const fetchUserProfile = async (userId: string) => {
     const response = await execute(() => getUserSummary(userId))
@@ -190,6 +203,11 @@ export default function DashboardPage() {
 
       {/* Referral Section */}
       <ReferralCard referralLink={user?.referral_link} copied={copied} onCopy={handleCopyReferral} />
+
+      {/* User Rating History */}
+      <div className="mt-12">
+        <UserRatingHistory ratings={userRatings} loading={ratingsLoading} />
+      </div>
     </PageShell>
   )
 }
