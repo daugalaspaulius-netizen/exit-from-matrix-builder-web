@@ -45,6 +45,9 @@ export type Proposal = {
   participation_percentage?: number
   result_reason_code?: string
   result_explanation?: string
+  result_explanation_lt?: string
+  participation_summary?: string
+  participation_summary_lt?: string
 }
 
 export type ForumPost = {

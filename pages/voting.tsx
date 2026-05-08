@@ -205,6 +205,9 @@ export default function VotingPage() {
                   status={proposal.status}
                   resultReasonCode={proposal.result_reason_code}
                   resultExplanation={proposal.result_explanation}
+                  resultExplanationLt={proposal.result_explanation_lt}
+                  participationSummary={proposal.participation_summary}
+                  participationSummaryLt={proposal.participation_summary_lt}
                   onVote={handleVote}
                 />
               )

@@ -17,6 +17,9 @@ type ProposalCardProps = {
   status?: string
   resultReasonCode?: string
   resultExplanation?: string
+  resultExplanationLt?: string
+  participationSummary?: string
+  participationSummaryLt?: string
   onVote: (proposalId: string, voteFor: boolean) => void
 }
 
@@ -70,6 +73,9 @@ export function ProposalCard({
   status,
   resultReasonCode,
   resultExplanation,
+  resultExplanationLt,
+  participationSummary,
+  participationSummaryLt,
   onVote,
 }: ProposalCardProps) {
   const totalVotes = votesFor + votesAgainst
@@ -100,9 +106,14 @@ export function ProposalCard({
                 <span className="font-semibold">Reikalaujimas:</span> {quorumInfo.requirement}
               </p>
               <p className="text-text-muted">{statusExplanation}</p>
-              {resultExplanation && (
+              {(resultExplanationLt || resultExplanation) && (
                 <p className="text-text-secondary border-t border-border/30 pt-2 mt-2">
-                  <span className="font-semibold">Rezultatas:</span> {resultExplanation}
+                  <span className="font-semibold">Rezultatas:</span> {resultExplanationLt || resultExplanation}
+                </p>
+              )}
+              {(participationSummaryLt || participationSummary) && (
+                <p className="text-text-muted text-xs">
+                  <span className="font-semibold">Dalyvavimas:</span> {participationSummaryLt || participationSummary}
                 </p>
               )}
               {resultReasonCode && (
