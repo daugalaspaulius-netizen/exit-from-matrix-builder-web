@@ -135,7 +135,7 @@ export default function VotingPage() {
           ) : proposals.length === 0 ? (
             <EmptyStateCard message="No proposals yet. Be the first to create one!" />
           ) : (
-            proposals.map((proposal) => (
+            proposals.map((proposal: Proposal) => (
               <ProposalCard
                 key={proposal.id}
                 id={proposal.vote_id || proposal.id}
@@ -143,6 +143,9 @@ export default function VotingPage() {
                 description={proposal.description}
                 votesFor={proposal.votes_for}
                 votesAgainst={proposal.votes_against}
+                status={proposal.status}
+                resultReasonCode={proposal.result_reason_code}
+                resultExplanation={proposal.result_explanation}
                 onVote={handleVote}
               />
             ))

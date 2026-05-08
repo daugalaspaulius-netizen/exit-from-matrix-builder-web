@@ -36,7 +36,9 @@ export type Proposal = {
   votes_against: number
   total_voters: number
   quorum_percentage: number
-}
+  result_reason_code?: string
+  result_explanation?: string
+
 
 export type ForumPost = {
   id?: string
