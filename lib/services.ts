@@ -1,13 +1,16 @@
 // API Service Layer
 // All HTTP calls to the backend go through here
+// Returns { data: T } wrapper to match existing page consumption patterns
+
+import type { AuditLogEntry, RatingHistoryEntry } from "@/types/api"
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "/api"
 
-// Helper function for API requests
+// Helper function for API requests - returns wrapped response
 async function apiCall<T>(
   endpoint: string,
   options?: RequestInit,
-): Promise<T> {
+): Promise<{ data: T }> {
   const url = `${API_BASE}${endpoint}`
   const response = await fetch(url, {
     headers: {
@@ -22,7 +25,42 @@ async function apiCall<T>(
     throw new Error(error.message || `API error: ${response.statusText}`)
   }
 
-  return response.json() as Promise<T>
+  const data = await response.json()
+  return { data }
+}
+
+// Helper to map audit log entries to RatingHistoryEntry format
+function mapAuditToRatingHistory(entry: AuditLogEntry): RatingHistoryEntry {
+  const details = entry.details as Record<string, unknown> || {}
+  return {
+    target_username: (details.target_username as string) || "Unknown",
+    rating_score: (details.score as number) || 0,
+    context: (details.context as string) || undefined,
+    comment: (details.comment as string) || undefined,
+    created_at: entry.timestamp,
+  }
+}
+
+// Auth APIs
+export async function loginUser(email: string, password: string) {
+  return apiCall<any>("/auth/login", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+  })
+}
+
+export async function registerUser(email: string, password: string, username: string) {
+  return apiCall<any>("/auth/register", {
+    method: "POST",
+    body: JSON.stringify({ email, password, username }),
+  })
+}
+
+export async function requestPasswordReset(email: string) {
+  return apiCall<any>("/auth/forgot-password", {
+    method: "POST",
+    body: JSON.stringify({ email }),
+  })
 }
 
 // System & Admin APIs
@@ -40,11 +78,11 @@ export async function getSystemErrorCodes() {
 
 export async function getSystemAuditLogs(limit?: number) {
   const params = limit ? `?limit=${limit}` : ""
-  return apiCall<any[]>(`/system/audit-logs${params}`)
+  return apiCall<AuditLogEntry[]>(`/system/audit-logs${params}`)
 }
 
 export async function getUiBindingValidation() {
-  return apiCall<any>("/system/ui-binding/validation")
+  return apiCall<any>("/system/ui-binding/validate")
 }
 
 export async function getUiBindingStatus() {
@@ -57,10 +95,47 @@ export async function getUserSummary(userId: string) {
 }
 
 export async function getUserRatingHistory(userId: string, limit = 20) {
-  return apiCall<any[]>(`/users/${userId}/rating/history?limit=${limit}`)
+  const response = await apiCall<AuditLogEntry[]>(`/users/${userId}/rating/history?limit=${limit}`)
+  // Map audit log entries to rating history format
+  return {
+    data: response.data.map(mapAuditToRatingHistory),
+  }
 }
 
 // Rating Activity APIs
 export async function getSystemRatingActivity(periodHours = 24) {
   return apiCall<any>(`/system/rating-activity?period_hours=${periodHours}`)
+}
+
+// Forum APIs
+export async function listForumPosts(limit?: number) {
+  const params = limit ? `?limit=${limit}` : ""
+  return apiCall<any[]>(`/forum/posts${params}`)
+}
+
+export async function createForumPost(title: string, content: string) {
+  return apiCall<any>("/forum/posts", {
+    method: "POST",
+    body: JSON.stringify({ title, content }),
+  })
+}
+
+// Voting APIs
+export async function listProposals(limit?: number) {
+  const params = limit ? `?limit=${limit}` : ""
+  return apiCall<any[]>(`/voting/proposals${params}`)
+}
+
+export async function createProposal(title: string, description: string) {
+  return apiCall<any>("/voting/proposals", {
+    method: "POST",
+    body: JSON.stringify({ title, description }),
+  })
+}
+
+export async function voteProposal(proposalId: string, vote: "yes" | "no") {
+  return apiCall<any>(`/voting/proposals/${proposalId}/vote`, {
+    method: "POST",
+    body: JSON.stringify({ vote }),
+  })
 }
