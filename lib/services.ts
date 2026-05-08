@@ -33,7 +33,7 @@ async function apiCall<T>(
 function mapAuditToRatingHistory(entry: AuditLogEntry): RatingHistoryEntry {
   const details = entry.details as Record<string, unknown> || {}
   return {
-    target_username: (details.target_username as string) || "Unknown",
+    target_username: (details.target_username as string) ?? (details.target_id as string) ?? "Unknown",
     rating_score: (details.score as number) || 0,
     context: (details.context as string) || undefined,
     comment: (details.comment as string) || undefined,
@@ -113,29 +113,29 @@ export async function listForumPosts(limit?: number) {
   return apiCall<any[]>(`/forum/posts${params}`)
 }
 
-export async function createForumPost(title: string, content: string) {
+export async function createForumPost(voteId: string | null, userId: string, content: string) {
   return apiCall<any>("/forum/posts", {
     method: "POST",
-    body: JSON.stringify({ title, content }),
+    body: JSON.stringify({ vote_id: voteId, author_id: userId, content }),
   })
 }
 
 // Voting APIs
 export async function listProposals(limit?: number) {
   const params = limit ? `?limit=${limit}` : ""
-  return apiCall<any[]>(`/voting/proposals${params}`)
+  return apiCall<any[]>(`/proposals${params}`)
 }
 
-export async function createProposal(title: string, description: string) {
-  return apiCall<any>("/voting/proposals", {
+export async function createProposal(userId: string, title: string, description: string, quorumType: string) {
+  return apiCall<any>("/proposals", {
     method: "POST",
-    body: JSON.stringify({ title, description }),
+    body: JSON.stringify({ author_id: userId, title, description, quorum_type: quorumType }),
   })
 }
 
-export async function voteProposal(proposalId: string, vote: "yes" | "no") {
-  return apiCall<any>(`/voting/proposals/${proposalId}/vote`, {
+export async function voteProposal(proposalId: string, userId: string, voteFor: boolean) {
+  return apiCall<any>(`/proposals/${proposalId}/vote?user_id=${userId}`, {
     method: "POST",
-    body: JSON.stringify({ vote }),
+    body: JSON.stringify({ vote_for: voteFor }),
   })
 }
