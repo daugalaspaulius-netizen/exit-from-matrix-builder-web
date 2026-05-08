@@ -27,13 +27,13 @@
       "title": "Forum and Voting visual pass",
       "scope": "Apply premium style language to forum and voting pages",
       "owner": "visual-ai",
-      "status": "in_progress",
+      "status": "review",
       "branch": "builder/premium-redesign-v3",
       "depends_on": ["UI-001"],
-      "updated_at": "2026-05-07T20:35:00Z",
+      "updated_at": "2026-05-08T08:45:00Z",
       "pr_ready": true,
-      "pr_commit": "6964c26",
-      "notes": "✅ PR ready: 5 files changed (forum.tsx, voting.tsx, ForumPostCard, ProposalCard, task-board). Visual-only (no logic). Awaiting Cursor review."
+      "pr_commit": "82740cd9",
+      "notes": "✅ PR complete: Voting (quorum info, participation, status explain) + Dashboard (treasury, projects, referral stats). 8 files, 266 insertions. Visual only, no logic. Ready for Cursor review."
     },
     {
       "id": "DOC-001",
