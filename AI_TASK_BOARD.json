@@ -36,6 +36,19 @@
       "notes": "✅ PR complete: Voting (quorum info, participation, status explain) + Dashboard (treasury, projects, referral stats). 8 files, 266 insertions. Visual only, no logic. Ready for Cursor review."
     },
     {
+      "id": "UI-003",
+      "title": "Voting quorum_type support + result explanation",
+      "scope": "Integrate WP-02 quorum_type backend contract into voting UI; add result explanation for frozen/closed statuses",
+      "owner": "visual-ai",
+      "status": "in_progress",
+      "branch": "builder/voting-quorum-type-ui-003",
+      "depends_on": ["UI-002"],
+      "updated_at": "2026-05-08T09:15:00Z",
+      "pr_ready": true,
+      "pr_commit": "5226c105",
+      "notes": "✅ PR ready: Voting form (quorum_type dropdown: simple/important/critical) + ProposalCard (frozen/closed result explanations). 2 files, 38 insertions. UI only, awaits Cursor services.ts update for createProposal() signature."
+    },
+    {
       "id": "DOC-001",
       "title": "Canonical rules sync maintenance",
       "scope": "Keep local web docs aligned with governance rules",
