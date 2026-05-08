@@ -24,7 +24,11 @@ export default function VotingPage() {
   const router = useRouter()
   const { userId, isCheckingAuth } = useRequireAuth()
   const [proposals, setProposals] = useState<Proposal[]>([])
-  const [newProposal, setNewProposal] = useState({ title: "", description: "" })
+  const [newProposal, setNewProposal] = useState({
+    title: "",
+    description: "",
+    quorum_type: "simple" as "simple" | "important" | "critical",
+  })
   const listRequest = useApiRequest()
   const createRequest = useApiRequest()
   const voteRequest = useApiRequest()
@@ -49,10 +53,10 @@ export default function VotingPage() {
     if (!userId) return
 
     const created = await createRequest.execute(() =>
-      createProposal(userId, newProposal.title, newProposal.description),
+      createProposal(userId, newProposal.title, newProposal.description, newProposal.quorum_type),
     )
     if (created) {
-      setNewProposal({ title: "", description: "" })
+      setNewProposal({ title: "", description: "", quorum_type: "simple" })
       await fetchProposals()
     }
   }
@@ -75,52 +79,72 @@ export default function VotingPage() {
 
   return (
     <PageShell
-      title="Community Voting"
-      subtitle="Shape the future of the platform"
-      titleClassName="text-primary glow-cyan"
+      title="Bendruomenės balsavimas"
+      subtitle="Nulemkite platformos ateitį"
+      titleClassName="text-text-primary"
       onLogout={handleLogout}
     >
         <ErrorAlert message={error} />
 
         {/* Create Proposal Form */}
-        <Card className="border-primary/30 bg-card/50 backdrop-blur box-glow-cyan mb-8">
+        <Card className="border border-border bg-surface mb-8 hover:shadow-md-elevation transition-shadow">
           <CardHeader>
-            <CardTitle className="text-primary">Create New Proposal</CardTitle>
-            <CardDescription>Submit your idea for community consideration</CardDescription>
+            <CardTitle className="text-text-primary">Kurti naują pasiūlymą</CardTitle>
+            <CardDescription className="text-text-secondary">Pasiūlykite idėją bendruomenei</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleCreateProposal} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="title">Proposal Title</Label>
+                <Label htmlFor="title">Pasiūlymo pavadinimas</Label>
                 <Input
                   id="title"
-                  placeholder="Enter proposal title"
+                  placeholder="Įveskite pasiūlymo pavadinimą"
                   value={newProposal.title}
                   onChange={(e) => setNewProposal({ ...newProposal, title: e.target.value })}
                   required
-                  className="bg-background/50 border-border/50"
+                  className="bg-surface-secondary border-border"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">Aprašymas</Label>
                 <Textarea
                   id="description"
-                  placeholder="Describe your proposal in detail"
+                  placeholder="Detaliai aprašykite savo pasiūlymą"
                   value={newProposal.description}
                   onChange={(e) => setNewProposal({ ...newProposal, description: e.target.value })}
                   required
                   rows={4}
-                  className="bg-background/50 border-border/50"
+                  className="bg-surface-secondary border-border"
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="quorum_type">Kvorumo tipas</Label>
+                <select
+                  id="quorum_type"
+                  value={newProposal.quorum_type}
+                  onChange={(e) =>
+                    setNewProposal({
+                      ...newProposal,
+                      quorum_type: e.target.value as "simple" | "important" | "critical",
+                    })
+                  }
+                  className="w-full px-3 py-2 rounded border border-border bg-surface-secondary text-text-primary focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="simple">Paprastas (50% + 1 balsas)</option>
+                  <option value="important">Svarbus (60% balsų)</option>
+                  <option value="critical">Kritiškas (70% balsų)</option>
+                </select>
+                <p className="text-xs text-text-muted">Pasirinkite, kokia dalis balsų reikalinga pasiūlymui priimti</p>
               </div>
 
               <Button
                 type="submit"
-                className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 box-glow-cyan"
+                className="bg-primary hover:bg-primary/90 text-white"
                 disabled={createRequest.loading}
               >
-                {createRequest.loading ? "Creating..." : "Create Proposal"}
+                {createRequest.loading ? "Kuriama..." : "Kurti pasiūlymą"}
               </Button>
             </form>
           </CardContent>
@@ -128,24 +152,63 @@ export default function VotingPage() {
 
         {/* Proposals List */}
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-foreground">Active Proposals</h2>
+          <div>
+            <h2 className="text-2xl font-bold text-text-primary mb-4">Aktyvus balsavimas</h2>
+            
+            {/* Status Legend */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+              <div className="bg-background/40 border border-border/50 rounded p-3 flex items-start gap-3">
+                <div className="w-3 h-3 rounded-full bg-blue-500 mt-1 flex-shrink-0" />
+                <div className="text-sm">
+                  <p className="font-semibold text-text-primary">Vyksta balsavimas</p>
+                  <p className="text-text-muted text-xs">Statusas: open. Jūs galite balsuoti.</p>
+                </div>
+              </div>
+              
+              <div className="bg-background/40 border border-border/50 rounded p-3 flex items-start gap-3">
+                <div className="w-3 h-3 rounded-full bg-yellow-500 mt-1 flex-shrink-0" />
+                <div className="text-sm">
+                  <p className="font-semibold text-text-primary">Rezultatas fiksuotas</p>
+                  <p className="text-text-muted text-xs">Statusas: frozen. Kvorum pasiektas.</p>
+                </div>
+              </div>
+              
+              <div className="bg-background/40 border border-border/50 rounded p-3 flex items-start gap-3">
+                <div className="w-3 h-3 rounded-full bg-red-500 mt-1 flex-shrink-0" />
+                <div className="text-sm">
+                  <p className="font-semibold text-text-primary">Balsavimas baigtas</p>
+                  <p className="text-text-muted text-xs">Statusas: closed. Nėra kvorūmo.</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {listRequest.loading ? (
-            <LoadingState message="Loading proposals..." />
+            <LoadingState message="Pasiūlymai įkeliami..." />
           ) : proposals.length === 0 ? (
-            <EmptyStateCard message="No proposals yet. Be the first to create one!" />
+            <EmptyStateCard message="Dar nėra pasiūlymų. Būkite pirmieji!" />
           ) : (
-            proposals.map((proposal) => (
-              <ProposalCard
-                key={proposal.id}
-                id={proposal.vote_id || proposal.id}
-                title={proposal.title}
-                description={proposal.description}
-                votesFor={proposal.votes_for}
-                votesAgainst={proposal.votes_against}
-                onVote={handleVote}
-              />
-            ))
+            proposals.map((proposal) => {
+              const totalEligible = proposal.total_voters || 1
+              const participation = ((proposal.votes_for + proposal.votes_against) / totalEligible) * 100
+              return (
+                <ProposalCard
+                  key={proposal.id}
+                  id={proposal.vote_id || proposal.id}
+                  title={proposal.title}
+                  description={proposal.description}
+                  votesFor={proposal.votes_for}
+                  votesAgainst={proposal.votes_against}
+                  quorumRequired={proposal.quorum_required || 50}
+                  quorumType={proposal.quorum_type}
+                  participationPercentage={participation}
+                  status={proposal.status}
+                  resultReasonCode={proposal.result_reason_code}
+                  resultExplanation={proposal.result_explanation}
+                  onVote={handleVote}
+                />
+              )
+            })
           )}
         </div>
     </PageShell>
