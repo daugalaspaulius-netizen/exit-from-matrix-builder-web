@@ -16,6 +16,8 @@ export type UserSummary = {
   treasury_total?: number
   treasury_active_projects?: number
   treasury_completed_projects?: number
+  rating_score?: number
+  rating_votes?: number
 }
 
 export type AuthUser = {

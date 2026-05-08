@@ -209,8 +209,8 @@ export default function DashboardPage() {
       <div className="mt-12">
         <h2 className="text-2xl font-bold mb-6 text-foreground">Your Reputation</h2>
         <ReputationSnapshot
-          ratingScore={0}
-          ratingVotes={0}
+          ratingScore={user?.rating_score ?? 0}
+          ratingVotes={user?.rating_votes ?? 0}
           recentRatings={userRatings}
           loading={ratingsLoading}
         />
