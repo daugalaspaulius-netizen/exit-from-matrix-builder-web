@@ -152,7 +152,36 @@ export default function VotingPage() {
 
         {/* Proposals List */}
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-text-primary">Aktyvus balsavimas</h2>
+          <div>
+            <h2 className="text-2xl font-bold text-text-primary mb-4">Aktyvus balsavimas</h2>
+            
+            {/* Status Legend */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+              <div className="bg-background/40 border border-border/50 rounded p-3 flex items-start gap-3">
+                <div className="w-3 h-3 rounded-full bg-blue-500 mt-1 flex-shrink-0" />
+                <div className="text-sm">
+                  <p className="font-semibold text-text-primary">Vyksta balsavimas</p>
+                  <p className="text-text-muted text-xs">Statusas: open. Jūs galite balsuoti.</p>
+                </div>
+              </div>
+              
+              <div className="bg-background/40 border border-border/50 rounded p-3 flex items-start gap-3">
+                <div className="w-3 h-3 rounded-full bg-yellow-500 mt-1 flex-shrink-0" />
+                <div className="text-sm">
+                  <p className="font-semibold text-text-primary">Rezultatas fiksuotas</p>
+                  <p className="text-text-muted text-xs">Statusas: frozen. Kvorum pasiektas.</p>
+                </div>
+              </div>
+              
+              <div className="bg-background/40 border border-border/50 rounded p-3 flex items-start gap-3">
+                <div className="w-3 h-3 rounded-full bg-red-500 mt-1 flex-shrink-0" />
+                <div className="text-sm">
+                  <p className="font-semibold text-text-primary">Balsavimas baigtas</p>
+                  <p className="text-text-muted text-xs">Statusas: closed. Nėra kvorūmo.</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {listRequest.loading ? (
             <LoadingState message="Pasiūlymai įkeliami..." />
