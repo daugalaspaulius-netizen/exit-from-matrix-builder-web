@@ -32,14 +32,23 @@ const getQuorumInfo = (quorumType?: string, quorumRequired?: number) => {
   }
 }
 
-const getStatusExplanation = (status?: string, quorumType?: string) => {
+const getStatusExplanation = (
+  status?: string,
+  quorumType?: string,
+  votesFor?: number,
+  votesAgainst?: number,
+) => {
   switch (status?.toLowerCase()) {
     case "active":
       return "Balsavimas vyksta. Dalyvaukite dabar!"
     case "pending":
       return "Balsavimas nebaigtas. Daugiau laiko lieka."
+    case "frozen":
+      return `✅ Kvorum pasiektas! Pasiūlymas ${votesFor && votesAgainst && votesFor > votesAgainst ? "priimtas" : "vertinamas"}. Rezultatas fiksuotas.`
     case "approved":
       return "Pasiūlymas priimtas! Sprendimas įgyvendinamas."
+    case "closed":
+      return `❌ Balsavimas baigtas. Kvorum nepasiektas arba priešingi balsai laimėjo. Pasiūlymas atmestas.`
     case "rejected":
       return "Pasiūlymas atmestas. Nepasiektas reikalingas kvorum."
     default:
@@ -62,7 +71,7 @@ export function ProposalCard({
   const totalVotes = votesFor + votesAgainst
   const percentage = totalVotes === 0 ? 50 : (votesFor / totalVotes) * 100
   const quorumInfo = getQuorumInfo(quorumType, quorumRequired)
-  const statusExplanation = getStatusExplanation(status, quorumType)
+  const statusExplanation = getStatusExplanation(status, quorumType, votesFor, votesAgainst)
 
   return (
     <Card className="border border-border bg-surface hover:shadow-md-elevation transition-shadow">

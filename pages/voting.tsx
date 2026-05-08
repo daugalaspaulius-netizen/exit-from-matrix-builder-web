@@ -24,7 +24,11 @@ export default function VotingPage() {
   const router = useRouter()
   const { userId, isCheckingAuth } = useRequireAuth()
   const [proposals, setProposals] = useState<Proposal[]>([])
-  const [newProposal, setNewProposal] = useState({ title: "", description: "" })
+  const [newProposal, setNewProposal] = useState({
+    title: "",
+    description: "",
+    quorum_type: "simple" as "simple" | "important" | "critical",
+  })
   const listRequest = useApiRequest()
   const createRequest = useApiRequest()
   const voteRequest = useApiRequest()
@@ -49,10 +53,10 @@ export default function VotingPage() {
     if (!userId) return
 
     const created = await createRequest.execute(() =>
-      createProposal(userId, newProposal.title, newProposal.description),
+      createProposal(userId, newProposal.title, newProposal.description, newProposal.quorum_type),
     )
     if (created) {
-      setNewProposal({ title: "", description: "" })
+      setNewProposal({ title: "", description: "", quorum_type: "simple" })
       await fetchProposals()
     }
   }
@@ -113,6 +117,26 @@ export default function VotingPage() {
                   rows={4}
                   className="bg-surface-secondary border-border"
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="quorum_type">Kvorumo tipas</Label>
+                <select
+                  id="quorum_type"
+                  value={newProposal.quorum_type}
+                  onChange={(e) =>
+                    setNewProposal({
+                      ...newProposal,
+                      quorum_type: e.target.value as "simple" | "important" | "critical",
+                    })
+                  }
+                  className="w-full px-3 py-2 rounded border border-border bg-surface-secondary text-text-primary focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="simple">Paprastas (50% + 1 balsas)</option>
+                  <option value="important">Svarbus (60% balsų)</option>
+                  <option value="critical">Kritiškas (70% balsų)</option>
+                </select>
+                <p className="text-xs text-text-muted">Pasirinkite, kokia dalis balsų reikalinga pasiūlymui priimti</p>
               </div>
 
               <Button
