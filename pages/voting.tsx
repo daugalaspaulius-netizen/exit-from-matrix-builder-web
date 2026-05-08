@@ -135,17 +135,25 @@ export default function VotingPage() {
           ) : proposals.length === 0 ? (
             <EmptyStateCard message="Dar nėra pasiūlymų. Būkite pirmieji!" />
           ) : (
-            proposals.map((proposal) => (
-              <ProposalCard
-                key={proposal.id}
-                id={proposal.vote_id || proposal.id}
-                title={proposal.title}
-                description={proposal.description}
-                votesFor={proposal.votes_for}
-                votesAgainst={proposal.votes_against}
-                onVote={handleVote}
-              />
-            ))
+            proposals.map((proposal) => {
+              const totalEligible = proposal.total_voters || 1
+              const participation = ((proposal.votes_for + proposal.votes_against) / totalEligible) * 100
+              return (
+                <ProposalCard
+                  key={proposal.id}
+                  id={proposal.vote_id || proposal.id}
+                  title={proposal.title}
+                  description={proposal.description}
+                  votesFor={proposal.votes_for}
+                  votesAgainst={proposal.votes_against}
+                  quorumRequired={proposal.quorum_required || 50}
+                  quorumType={proposal.quorum_type}
+                  participationPercentage={participation}
+                  status={proposal.status}
+                  onVote={handleVote}
+                />
+              )
+            })
           )}
         </div>
     </PageShell>

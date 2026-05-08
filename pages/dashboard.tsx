@@ -14,6 +14,8 @@ import { LoadingState } from "@/components/common/LoadingState"
 import { StatCard } from "@/components/dashboard/StatCard"
 import { ActionCard } from "@/components/dashboard/ActionCard"
 import { ReferralCard } from "@/components/dashboard/ReferralCard"
+import { TreasuryCard } from "@/components/dashboard/TreasuryCard"
+import { ProjectsCard } from "@/components/dashboard/ProjectsCard"
 import type { AuditLogEntry, UserSummary } from "@/types/api"
 
 export default function DashboardPage() {
@@ -147,49 +149,65 @@ export default function DashboardPage() {
 
       {/* Quick Actions */}
       <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-6 text-foreground">Quick Actions</h2>
+          <h2 className="text-2xl font-bold mb-6 text-text-primary">Greitai pradėti</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <ActionCard
               href="/voting"
               icon={<Vote className="w-8 h-8 text-primary" />}
-              title="Vote on Proposals"
-              description="Participate in community decisions"
+              title="Balsuoti"
+              description="Dalyvauk bendruomenės sprendimuose"
               iconWrapperClassName="p-3 rounded-lg bg-primary/10"
               titleClassName="text-primary"
-              cardClassName="border-primary/30 bg-card/50 backdrop-blur hover:box-glow-cyan transition-all duration-300 cursor-pointer h-full"
+              cardClassName="border-primary/30 bg-surface hover:shadow-md-elevation transition-all duration-300 cursor-pointer h-full"
             />
             <ActionCard
               href="/forum"
               icon={<MessageSquare className="w-8 h-8 text-secondary" />}
-              title="Community Forum"
-              description="Engage with other members"
+              title="Forumas"
+              description="Diskutuok su bendruomene"
               iconWrapperClassName="p-3 rounded-lg bg-secondary/10"
               titleClassName="text-secondary"
-              cardClassName="border-secondary/30 bg-card/50 backdrop-blur hover:box-glow-purple transition-all duration-300 cursor-pointer h-full"
+              cardClassName="border-secondary/30 bg-surface hover:shadow-md-elevation transition-all duration-300 cursor-pointer h-full"
             />
             <ActionCard
               href="/settings"
               icon={<Settings className="w-8 h-8 text-accent" />}
-              title="Account Settings"
-              description="Manage your profile"
+              title="Nustatymai"
+              description="Tvarkyti savo paskyrą"
               iconWrapperClassName="p-3 rounded-lg bg-accent/10"
               titleClassName="text-accent"
-              cardClassName="border-accent/30 bg-card/50 backdrop-blur hover:box-glow-pink transition-all duration-300 cursor-pointer h-full"
+              cardClassName="border-accent/30 bg-surface hover:shadow-md-elevation transition-all duration-300 cursor-pointer h-full"
             />
             <ActionCard
               href="/system-monitor"
               icon={<Activity className="w-8 h-8 text-green-500" />}
-              title="System Monitor"
-              description="Inspect contracts and runtime health"
+              title="Sistema"
+              description="Stebėti platformos sveikate"
               iconWrapperClassName="p-3 rounded-lg bg-green-500/10"
               titleClassName="text-green-500"
-              cardClassName="border-green-500/30 bg-card/50 backdrop-blur hover:shadow-[0_0_15px_rgb(34_197_94/0.3)] transition-all duration-300 cursor-pointer h-full"
+              cardClassName="border-green-500/30 bg-surface hover:shadow-md-elevation transition-all duration-300 cursor-pointer h-full"
             />
           </div>
         </div>
 
+      {/* Treasury & Projects Overview */}
+      <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <TreasuryCard total={user?.treasury_total || 0} currency="€" />
+        <ProjectsCard
+          total={(user?.treasury_active_projects || 0) + (user?.treasury_completed_projects || 0)}
+          active={user?.treasury_active_projects || 0}
+          completed={user?.treasury_completed_projects || 0}
+        />
+      </div>
+
       {/* Referral Section */}
-      <ReferralCard referralLink={user?.referral_link} copied={copied} onCopy={handleCopyReferral} />
+      <ReferralCard
+        referralLink={user?.referral_link}
+        invitedCount={user?.referral_invited_count || 0}
+        referralPointsEarned={user?.referral_points_earned || 0}
+        copied={copied}
+        onCopy={handleCopyReferral}
+      />
     </PageShell>
   )
 }
