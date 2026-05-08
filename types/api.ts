@@ -43,6 +43,8 @@ export type Proposal = {
   total_voters: number
   quorum_percentage: number
   participation_percentage?: number
+  result_reason_code?: string
+  result_explanation?: string
 }
 
 export type ForumPost = {

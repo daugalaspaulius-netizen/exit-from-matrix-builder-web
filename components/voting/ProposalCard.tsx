@@ -15,6 +15,8 @@ type ProposalCardProps = {
   quorumType?: "simple" | "important" | "critical"
   participationPercentage?: number
   status?: string
+  resultReasonCode?: string
+  resultExplanation?: string
   onVote: (proposalId: string, voteFor: boolean) => void
 }
 
@@ -66,6 +68,8 @@ export function ProposalCard({
   quorumType,
   participationPercentage,
   status,
+  resultReasonCode,
+  resultExplanation,
   onVote,
 }: ProposalCardProps) {
   const totalVotes = votesFor + votesAgainst
@@ -91,11 +95,21 @@ export function ProposalCard({
         <div className="bg-background/30 border border-border/50 rounded p-3 space-y-2">
           <div className="flex items-start gap-2">
             <Info className="w-4 h-4 text-text-muted mt-0.5 flex-shrink-0" />
-            <div className="flex-1 text-sm">
-              <p className="text-text-secondary mb-1">
+            <div className="flex-1 text-sm space-y-1">
+              <p className="text-text-secondary">
                 <span className="font-semibold">Reikalaujimas:</span> {quorumInfo.requirement}
               </p>
               <p className="text-text-muted">{statusExplanation}</p>
+              {resultExplanation && (
+                <p className="text-text-secondary border-t border-border/30 pt-2 mt-2">
+                  <span className="font-semibold">Rezultatas:</span> {resultExplanation}
+                </p>
+              )}
+              {resultReasonCode && (
+                <p className="text-xs text-text-muted/80">
+                  <span className="font-mono text-primary/60">Kodas: {resultReasonCode}</span>
+                </p>
+              )}
             </div>
           </div>
         </div>

@@ -174,6 +174,8 @@ export default function VotingPage() {
                   quorumType={proposal.quorum_type}
                   participationPercentage={participation}
                   status={proposal.status}
+                  resultReasonCode={proposal.result_reason_code}
+                  resultExplanation={proposal.result_explanation}
                   onVote={handleVote}
                 />
               )
