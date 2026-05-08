@@ -11,6 +11,11 @@ export type UserSummary = {
   created_at: string
   referral_link?: string
   email?: string
+  referral_invited_count?: number
+  referral_points_earned?: number
+  treasury_total?: number
+  treasury_active_projects?: number
+  treasury_completed_projects?: number
 }
 
 export type AuthUser = {
@@ -32,10 +37,17 @@ export type Proposal = {
   created_at: string
   voting_deadline: string
   quorum_required: number
+  quorum_type?: "simple" | "important" | "critical"
   votes_for: number
   votes_against: number
   total_voters: number
   quorum_percentage: number
+  participation_percentage?: number
+  result_reason_code?: string
+  result_explanation?: string
+  result_explanation_lt?: string
+  participation_summary?: string
+  participation_summary_lt?: string
 }
 
 export type ForumPost = {
