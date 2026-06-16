@@ -101,23 +101,23 @@ export function ProposalCard({
         <div className="bg-background/30 border border-border/50 rounded p-3 space-y-2">
           <div className="flex items-start gap-2">
             <Info className="w-4 h-4 text-text-muted mt-0.5 flex-shrink-0" />
-            <div className="flex-1 text-sm space-y-1">
+            <div className="flex-1 text-sm space-y-2">
               <p className="text-text-secondary">
                 <span className="font-semibold">Reikalaujimas:</span> {quorumInfo.requirement}
               </p>
               <p className="text-text-muted">{statusExplanation}</p>
               {(resultExplanationLt || resultExplanation) && (
-                <p className="text-text-secondary border-t border-border/30 pt-2 mt-2">
+                <p className="text-text-secondary border-t border-border/30 pt-2">
                   <span className="font-semibold">Rezultatas:</span> {resultExplanationLt || resultExplanation}
                 </p>
               )}
               {(participationSummaryLt || participationSummary) && (
-                <p className="text-text-muted text-xs">
+                <p className="text-text-secondary border-t border-border/30 pt-2">
                   <span className="font-semibold">Dalyvavimas:</span> {participationSummaryLt || participationSummary}
                 </p>
               )}
               {resultReasonCode && (
-                <p className="text-xs text-text-muted/80">
+                <p className="text-xs text-text-muted/80 border-t border-border/30 pt-2">
                   <span className="font-mono text-primary/60">Kodas: {resultReasonCode}</span>
                 </p>
               )}
