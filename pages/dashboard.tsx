@@ -108,95 +108,94 @@ export default function DashboardPage() {
 
   return (
     <PageShell
-      title={`Welcome, ${user?.username || "User"}!`}
-      subtitle="Your decentralized dashboard"
-      titleClassName="text-4xl md:text-5xl gradient-text glow-cyan"
+      title={`Sveikas, ${user?.username || "Naudotojau"}!`}
+      subtitle="Jūsų decentralizuotasis valdymo prietaisas"
+      titleClassName="text-4xl md:text-5xl text-text-primary"
       onLogout={handleLogout}
       showDashboardButton={false}
     >
       <ErrorAlert message={error} className="mt-2 mb-8" />
       {incidentBadge && incidentBadge.unacknowledgedCritical > 0 && (
-        <div className="mb-8 rounded border border-red-500/50 bg-red-500/10 p-3 text-sm text-red-300">
-          Unacknowledged critical incidents in last 24h: {incidentBadge.unacknowledgedCritical}. Open `System Monitor`
-          for incident timeline.
+        <div className="mb-8 rounded border border-error/50 bg-error/10 p-3 text-sm text-error">
+          Nepakryptos kritinės problemos per 24h: {incidentBadge.unacknowledgedCritical}. Atverkite `Sistemos monitoriu`
+          norėdami peržiūrėti problemų liniją.
         </div>
       )}
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         <StatCard
-          title="Points Balance"
+          title="Taškų balansas"
           value={`${user?.points || 0}`}
-          subtitle="Total points earned"
+          subtitle="Iš viso uždirbti taškai"
           icon={<Zap className="w-5 h-5 text-primary" />}
-          cardClassName="border-primary/30 bg-card/50 backdrop-blur box-glow-cyan hover:box-glow-cyan transition-all duration-300"
+          cardClassName="border border-border bg-surface hover:shadow-md-elevation transition-shadow"
           valueClassName="text-primary"
         />
         <StatCard
-          title="Level"
-          value={`Level ${user?.level || 1}`}
-          subtitle="Current rank"
-          icon={<Award className="w-5 h-5 text-secondary" />}
-          cardClassName="border-secondary/30 bg-card/50 backdrop-blur box-glow-purple hover:box-glow-purple transition-all duration-300"
-          valueClassName="text-secondary"
+          title="Lygis"
+          value={`Lygis ${user?.level || 1}`}
+          subtitle="Dabartinis rangas"
+          icon={<Award className="w-5 h-5 text-primary" />}
+          cardClassName="border border-border bg-surface hover:shadow-md-elevation transition-shadow"
+          valueClassName="text-primary"
         />
         <StatCard
-          title="Voting Power"
+          title="Balsavimo galia"
           value="1:1"
-          subtitle="Equal voting rights"
-          icon={<Vote className="w-5 h-5 text-accent" />}
-          cardClassName="border-accent/30 bg-card/50 backdrop-blur box-glow-pink hover:box-glow-pink transition-all duration-300"
-          valueClassName="text-accent"
+          subtitle="Lygūs balsavimo teisės"
+          icon={<Vote className="w-5 h-5 text-primary" />}
+          cardClassName="border border-border bg-surface hover:shadow-md-elevation transition-shadow"
+          valueClassName="text-primary"
         />
         <StatCard
-          title="Monthly Earnings"
+          title="Mėnesio pajamos"
           value="€10"
-          subtitle="Guaranteed monthly"
-          icon={<TrendingUp className="w-5 h-5 text-green-500" />}
-          cardClassName="border-green-500/30 bg-card/50 backdrop-blur hover:shadow-[0_0_15px_rgb(34_197_94/0.3)] transition-all duration-300"
-          valueClassName="text-green-500"
+          subtitle="Garantuota summa"
+          icon={<TrendingUp className="w-5 h-5 text-success" />}
+          cardClassName="border border-border bg-surface hover:shadow-md-elevation transition-shadow"
+          valueClassName="text-success"
         />
       </div>
 
       {/* Quick Actions */}
       <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-6 text-foreground">Quick Actions</h2>
+          <h2 className="text-2xl font-bold mb-6 text-text-primary">Greiti žingsniai</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <ActionCard
               href="/voting"
               icon={<Vote className="w-8 h-8 text-primary" />}
-              title="Vote on Proposals"
-              description="Participate in community decisions"
+              title="Balsuoti dėl pasiūlymų"
+              description="Dalyvaukite bendruomenės sprendimų priėmime"
               iconWrapperClassName="p-3 rounded-lg bg-primary/10"
-              titleClassName="text-primary"
-              cardClassName="border-primary/30 bg-card/50 backdrop-blur hover:box-glow-cyan transition-all duration-300 cursor-pointer h-full"
+              titleClassName="text-text-primary"
+              cardClassName="border border-border bg-surface hover:shadow-md-elevation transition-shadow cursor-pointer h-full"
             />
             <ActionCard
               href="/forum"
-              icon={<MessageSquare className="w-8 h-8 text-secondary" />}
-              title="Community Forum"
-              description="Engage with other members"
-              iconWrapperClassName="p-3 rounded-lg bg-secondary/10"
-              titleClassName="text-secondary"
-              cardClassName="border-secondary/30 bg-card/50 backdrop-blur hover:box-glow-purple transition-all duration-300 cursor-pointer h-full"
+              icon={<MessageSquare className="w-8 h-8 text-primary" />}
+              title="Bendruomenės forumas"
+              description="Bendravimas su kitais nariais"
+              iconWrapperClassName="p-3 rounded-lg bg-primary/10"
+              titleClassName="text-text-primary"
+              cardClassName="border border-border bg-surface hover:shadow-md-elevation transition-shadow cursor-pointer h-full"
             />
             <ActionCard
               href="/settings"
-              icon={<Settings className="w-8 h-8 text-accent" />}
-              title="Account Settings"
-              description="Manage your profile"
-              iconWrapperClassName="p-3 rounded-lg bg-accent/10"
-              titleClassName="text-accent"
-              cardClassName="border-accent/30 bg-card/50 backdrop-blur hover:box-glow-pink transition-all duration-300 cursor-pointer h-full"
+              icon={<Settings className="w-8 h-8 text-primary" />}
+              title="Paskyros nustatymai"
+              description="Valdykite savo profilį"
+              iconWrapperClassName="p-3 rounded-lg bg-primary/10"
+              titleClassName="text-text-primary"
+              cardClassName="border border-border bg-surface hover:shadow-md-elevation transition-shadow cursor-pointer h-full"
             />
             <ActionCard
               href="/system-monitor"
-              icon={<Activity className="w-8 h-8 text-green-500" />}
-              title="System Monitor"
-              description="Inspect contracts and runtime health"
-              iconWrapperClassName="p-3 rounded-lg bg-green-500/10"
-              titleClassName="text-green-500"
-              cardClassName="border-green-500/30 bg-card/50 backdrop-blur hover:shadow-[0_0_15px_rgb(34_197_94/0.3)] transition-all duration-300 cursor-pointer h-full"
+              icon={<Activity className="w-8 h-8 text-primary" />}
+              title="Sistemos monitorius"
+              description="Tikrinkite kontraktų ir tinklo sveikatą"
+              iconWrapperClassName="p-3 rounded-lg bg-primary/10"
+              titleClassName="text-text-primary"
+              cardClassName="border border-border bg-surface hover:shadow-md-elevation transition-shadow cursor-pointer h-full"
             />
           </div>
         </div>
